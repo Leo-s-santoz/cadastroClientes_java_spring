@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center bg-gray-100 p-6">
+<div class="w-full max-w-4xl bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">Gestão de Clientes</h1>
+    <button class="mb-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Inserir Cliente</button>
+
+    <table class="w-full border-collapse border border-gray-300">
+        <thead>
+        <tr class="bg-gray-200">
+            <th class="border p-2">ID</th>
+            <th class="border p-2">Nome</th>
+            <th class="border p-2">Telefone</th>
+            <th class="border p-2">WhatsApp</th>
+            <th class="border p-2">Data Nascimento</th>
+            <th class="border p-2">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="bg-white border">
+            <td class="border p-2 text-center">1</td>
+            <td class="border p-2 text-blue-500 underline cursor-pointer">João Silva</td>
+            <td class="border p-2 text-center">(11) 99999-9999</td>
+            <td class="border p-2 text-center">(11) 99999-9999</td>
+            <td class="border p-2 text-center">01/01/1990</td>
+            <td class="border p-2 text-center">
+                <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
+                <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="confirmarExclusao()">Excluir</button>
+                <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Agendar</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function confirmarExclusao() {
+        if (confirm('Tem certeza que deseja excluir este cliente?')) {
+            alert('Cliente excluído!');
+        }
+    }
+</script>
+</body>
+</html>
