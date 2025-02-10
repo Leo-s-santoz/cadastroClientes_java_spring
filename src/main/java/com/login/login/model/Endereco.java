@@ -1,14 +1,27 @@
 package com.login.login.model;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotEmpty;
 
 @Embeddable
 public class Endereco {
 
+    @NotEmpty
     private String cep;
+
+    @NotEmpty
     private String logradouro;
+
+    @NotEmpty
+    private String numero;
+
+    @NotEmpty
     private String bairro;
+
+    @NotEmpty
     private String estado;
+
+    @NotEmpty
     private String cidade;
 
     public String getCep() {
@@ -25,6 +38,14 @@ public class Endereco {
 
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
     public String getBairro() {

@@ -16,10 +16,10 @@ public class Cliente {
     public String nascimento;
 
     @Embedded
-    @NotEmpty
     @AttributeOverrides({
             @AttributeOverride(name = "cep", column = @Column(name = "endereco_cep")),
             @AttributeOverride(name = "logradouro", column = @Column(name = "endereco_logradouro")),
+            @AttributeOverride(name = "numero", column = @Column(name = "endereco_numero")),
             @AttributeOverride(name = "bairro", column = @Column(name = "endereco_bairro")),
             @AttributeOverride(name = "estado", column = @Column(name = "endereco_estado")),
             @AttributeOverride(name = "cidade", column = @Column(name = "endereco_cidade"))
@@ -27,10 +27,10 @@ public class Cliente {
     public Endereco endereco;
 
     @Embedded
-    @NotEmpty
     @AttributeOverrides({
             @AttributeOverride(name = "cep", column = @Column(name = "cobranca_cep")),
             @AttributeOverride(name = "logradouro", column = @Column(name = "cobranca_logradouro")),
+            @AttributeOverride(name = "numero", column = @Column(name = "cobranca_numero")),
             @AttributeOverride(name = "bairro", column = @Column(name = "cobranca_bairro")),
             @AttributeOverride(name = "estado", column = @Column(name = "cobranca_estado")),
             @AttributeOverride(name = "cidade", column = @Column(name = "cobranca_cidade"))

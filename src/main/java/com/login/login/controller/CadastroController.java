@@ -35,8 +35,6 @@ public class CadastroController {
             return "redirect:/cadastroUsuario";
         }
 
-        System.out.println(NovoUsuario.getEmail());
-
         usuarioRepository.save(NovoUsuario);
 
         return "redirect:/login";
