@@ -15,6 +15,7 @@ public class Usuario {
     private String nome;
 
     @NotEmpty
+    @Column(unique = true)
     private String email;
 
     @NotEmpty

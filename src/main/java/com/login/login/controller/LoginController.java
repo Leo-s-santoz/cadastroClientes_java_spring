@@ -2,6 +2,7 @@ package com.login.login.controller;
 
 import com.login.login.model.Usuario;
 import com.login.login.repository.UsuarioRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -26,8 +27,22 @@ public class LoginController {
         return "cadastro";
     }
 
-    @RequestMapping(value = "/cadastroUsuario", method = RequestMethod.POST)
-    public String cadastroUsuario(@Valid Usuario usuario, BindingResult result, Model model) {
+    @PostMapping("/login")
+    public String logarUsuario(Usuario usuario, Model model, HttpServletResponse response) {
+        Usuario usuarioLogado = this.usuarioRepository.login(usuario.getEmail(), usuario.getSenha());
+
+        if (usuarioLogado != null) {
+            return "redirect:/cadastroUsuario";
+        }
+
+        model.addAttribute("erro", "Usuario inválido!");
+        return "login";
+    }
+
+    //cadastro
+    @PostMapping("/cadastroUsuario")
+    public String cadastrarUsuario(@Valid Usuario NovoUsuario, BindingResult result, Model model) {
+
         if(result.hasErrors()){
             for (ObjectError error : result.getAllErrors()) {
                 System.out.println(error.getDefaultMessage());
@@ -36,7 +51,11 @@ public class LoginController {
             return "redirect:/cadastroUsuario";
         }
 
-        usuarioRepository.save(usuario);
+        System.out.println(NovoUsuario.getEmail());
+
+        usuarioRepository.save(NovoUsuario);
+
         return "redirect:/login";
     }
+
 }
