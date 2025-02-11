@@ -37,17 +37,24 @@ public class LoginController {
         if (usuarioLogado != null) {
             CookieService.setCookie(response, "tipoUsuario", String.valueOf(usuarioLogado.getTipo()), 10000);
             CookieService.setCookie(response, "usuarioNome", String.valueOf(usuarioLogado.getNome()), 10000);
-            return "redirect:/gestaoClientes";
+            return "gestaoClientes";
         }
 
         model.addAttribute("erro", "Usuario inválido!");
         return "login";
     }
 
+
+
+
+
+
+
+
     @GetMapping("/sair")
     public String sair(HttpServletResponse response) throws Exception {
-            CookieService.setCookie(response, "usuarioId", "", 10000);
-            return "redirect:/";
+        CookieService.setCookie(response, "usuarioId", "", 10000);
+        return "redirect:/";
     }
 
 }
