@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,8 +35,17 @@ public class ClienteRestController {
         return "gestaoClientes";
     }
 
+    //metodo de exclusao de cliente
+    @DeleteMapping("/api/deleteCliente/{email}")
+    public String deletarCliente(@PathVariable String email) {
+        Cliente cliente = clienteRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+        clienteRepository.delete(cliente);
+        return "gestaoClientes";
+    }
+
     //metodo de listagem de clientes
-    @GetMapping("/api/clientes")
+    @GetMapping("/api/listarClientes")
     public List<Cliente> listarClientes() {
         return (List<Cliente>) clienteRepository.findAll();
     }

@@ -25,5 +25,6 @@ public class ClienteController {
     public String inserirCliente() {
         return "inserirCliente";
     }
+
 }
 
