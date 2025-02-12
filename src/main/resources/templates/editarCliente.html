@@ -9,11 +9,11 @@
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
 <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-3xl">
   <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Editar Cliente</h2>
-  <form method="post">
+  <form id="clienteForm" method="post">
     <!-- Dados Pessoais -->
     <div class="mb-4">
       <label for="cpf" class="block text-gray-700 font-medium">CPF</label>
-      <input name="cpf" type="text" disabled="true" id="cpf" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Digite o CPF" required>
+      <input name="cpf" type="text" id="cpf" class="w-full px-4 py-2 mt-1 border rounded-lg" readonly>
     </div>
     <div class="mb-4">
       <label for="nome" class="block text-gray-700 font-medium">Nome e Sobrenome</label>
@@ -113,53 +113,105 @@
 </div>
 
 <script>
-  document.getElementById('copiar_endereco').addEventListener('change', function() {
-      const campos = ["cep", "logradouro", "numero", "bairro", "estado", "cidade"];
-      campos.forEach(campo => {
-          document.getElementById(`${campo}_cobranca`).value = this.checked ? document.getElementById(campo).value : '';
-      });
-  });
+document.getElementById('clienteForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
 
-  document.addEventListener("DOMContentLoaded", async function loadClientData() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const email = urlParams.get('email');
+  const cliente = {
+    cpf: document.getElementById('cpf').value,
+    nome: document.getElementById('nome').value,
+    nascimento: document.getElementById('data_nascimento').value,
+    endereco: {
+      cep: document.getElementById('cep').value,
+      logradouro: document.getElementById('logradouro').value,
+      numero: document.getElementById('numero').value,
+      bairro: document.getElementById('bairro').value,
+      estado: document.getElementById('estado').value,
+      cidade: document.getElementById('cidade').value,
+    },
+    enderecoCobranca: {
+      cep: document.getElementById('cep_cobranca').value,
+      logradouro: document.getElementById('logradouro_cobranca').value,
+      numero: document.getElementById('numero_cobranca').value,
+      bairro: document.getElementById('bairro_cobranca').value,
+      estado: document.getElementById('estado_cobranca').value,
+      cidade: document.getElementById('cidade_cobranca').value,
+    },
+    telefone: document.getElementById('telefone').value,
+    whatsapp: document.getElementById('whatsapp').value,
+    email: document.getElementById('email').value,
+  };
 
-    if (!email) {
-      alert('Email do cliente não informado');
-      window.location.href = '/gestaoClientes';
-      return;
+  try {
+    const response = await fetch('/api/editarCliente', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cliente),
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao editar cliente');
     }
 
-    try {
-      const response = await fetch(`/api/getCliente/${email}`);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar cliente');
-      }
-      const cliente = await response.json();
+    alert('Cliente editado com sucesso!');
+    window.location.href = '/gestaoClientes';
+  } catch (error) {
+    console.error('Erro ao editar cliente', error);
+    alert('Erro ao editar cliente');
+  }
+});
 
-      document.getElementById('cpf').value = cliente.cpf;
-      document.getElementById('nome').value = cliente.nome;
-      document.getElementById('data_nascimento').value = cliente.nascimento;
-      document.getElementById('cep').value = cliente.endereco.cep;
-      document.getElementById('logradouro').value = cliente.endereco.logradouro;
-      document.getElementById('numero').value = cliente.endereco.numero;
-      document.getElementById('bairro').value = cliente.endereco.bairro;
-      document.getElementById('estado').value = cliente.endereco.estado;
-      document.getElementById('cidade').value = cliente.endereco.cidade;
-      document.getElementById('telefone').value = cliente.telefone;
-      document.getElementById('whatsapp').value = cliente.whatsapp;
-      document.getElementById('email').value = cliente.email;
-      document.getElementById('cep_cobranca').value = cliente.enderecoCobranca.cep;
-      document.getElementById('logradouro_cobranca').value = cliente.enderecoCobranca.logradouro;
-      document.getElementById('numero_cobranca').value = cliente.enderecoCobranca.numero;
-      document.getElementById('bairro_cobranca').value = cliente.enderecoCobranca.bairro;
-      document.getElementById('estado_cobranca').value = cliente.enderecoCobranca.estado;
-      document.getElementById('cidade_cobranca').value = cliente.enderecoCobranca.cidade;
-    } catch (error) {
-      console.error('Erro ao buscar cliente', error);
-      alert('Erro ao buscar cliente');
+
+document.getElementById('copiar_endereco').addEventListener('change', function() {
+    const campos = ["cep", "logradouro", "numero", "bairro", "estado", "cidade"];
+    campos.forEach(campo => {
+        document.getElementById(`${campo}_cobranca`).value = this.checked ? document.getElementById(campo).value : '';
+    });
+});
+
+document.addEventListener("DOMContentLoaded", async function loadClientData() {
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const email = urlParams.get('email');
+
+  if (!email) {
+    alert('Email do cliente não informado');
+    window.location.href = '/gestaoClientes';
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/getCliente/${email}`);
+    if (!response.ok) {
+      throw new Error('Erro ao buscar cliente');
     }
-  })
+    const cliente = await response.json();
+
+    document.getElementById('cpf').value = cliente.cpf;
+    document.getElementById('nome').value = cliente.nome;
+    document.getElementById('data_nascimento').value = cliente.nascimento;
+    document.getElementById('cep').value = cliente.endereco.cep;
+    document.getElementById('logradouro').value = cliente.endereco.logradouro;
+    document.getElementById('numero').value = cliente.endereco.numero;
+    document.getElementById('bairro').value = cliente.endereco.bairro;
+    document.getElementById('estado').value = cliente.endereco.estado;
+    document.getElementById('cidade').value = cliente.endereco.cidade;
+    document.getElementById('telefone').value = cliente.telefone;
+    document.getElementById('whatsapp').value = cliente.whatsapp;
+    document.getElementById('email').value = cliente.email;
+    document.getElementById('cep_cobranca').value = cliente.enderecoCobranca.cep;
+    document.getElementById('logradouro_cobranca').value = cliente.enderecoCobranca.logradouro;
+    document.getElementById('numero_cobranca').value = cliente.enderecoCobranca.numero;
+    document.getElementById('bairro_cobranca').value = cliente.enderecoCobranca.bairro;
+    document.getElementById('estado_cobranca').value = cliente.enderecoCobranca.estado;
+    document.getElementById('cidade_cobranca').value = cliente.enderecoCobranca.cidade;
+  } catch (error) {
+    console.error('Erro ao buscar cliente', error);
+    alert('Erro ao buscar cliente');
+  }
+})
+
 </script>
 </body>
 </html>

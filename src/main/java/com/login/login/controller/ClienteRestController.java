@@ -4,12 +4,11 @@ import com.login.login.model.Cliente;
 import com.login.login.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ClienteRestController {
@@ -18,21 +17,32 @@ public class ClienteRestController {
     @Autowired
     private ClienteService clienteService;
 
-    //metodo de cadastro de cliente
-    @PostMapping("/inserirCliente")
-    public String inserirCliente(@Valid Cliente novoCliente, BindingResult result, Model model) {
-
-        if(result.hasErrors()){
-            for (ObjectError error : result.getAllErrors()) {
-                System.out.println(error.getDefaultMessage());
-            }
-            model.addAttribute("errors", result.getAllErrors());
-            return "redirect:/inserirCliente";
+    //metodo de cadastro ou edição de cliente
+    @PostMapping("/api/editarCliente")
+    public Cliente cadastrarOuEditarCliente(@Valid @RequestBody Cliente cliente) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String clienteJson = objectMapper.writeValueAsString(cliente);
+            System.out.println("Cliente recebido: " + clienteJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
 
-        clienteService.saveOrUpdateCliente(novoCliente);
+        if (cliente.getCpf() == null) {
+            throw new IllegalArgumentException("CPF não pode ser nulo");
+        }
+        // Verifica se o cliente existe pelo CPF
+        Optional<Cliente> clienteExistente = clienteService.findFirstByCpf(cliente.getCpf());
 
-        return "gestaoClientes";
+        if (clienteExistente != null) {
+
+            Cliente resultado = clienteService.saveOrUpdateCliente(cliente);
+            return resultado;
+
+        } else {
+            // Cliente não existe, crie um novo
+            return clienteService.saveOrUpdateCliente(cliente);
+        }
     }
 
     //metodo de exclusao de cliente
@@ -49,12 +59,9 @@ public class ClienteRestController {
         return (List<Cliente>) clienteService.listarClientes();
     }
 
-    //editar cliente
-
     //carregar informação do cliente
     @GetMapping("/api/getCliente/{email}")
     public Cliente getCliente(@PathVariable String email) {
         return clienteService.findClienteByEmail(email);
     }
-
 }

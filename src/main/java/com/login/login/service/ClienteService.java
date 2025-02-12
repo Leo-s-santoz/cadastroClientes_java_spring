@@ -4,6 +4,7 @@ import com.login.login.model.Cliente;
 import com.login.login.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -21,6 +22,10 @@ public class ClienteService {
 
     public Iterable<Cliente> listarClientes() {
         return clienteRepository.findAll();
+    }
+
+    public Optional<Cliente> findFirstByCpf(String cpf) {
+        return clienteRepository.findFirstByCpf(cpf);
     }
 
     public Cliente findClienteByEmail(String email) {

@@ -9,7 +9,7 @@
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
 <div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-3xl">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Inserir Cliente</h2>
-    <form method="post">
+    <form id="clienteForm" method="post">
         <!-- Dados Pessoais -->
         <div class="mb-4">
             <label for="cpf" class="block text-gray-700 font-medium">CPF</label>
@@ -119,6 +119,55 @@
             document.getElementById(`${campo}_cobranca`).value = this.checked ? document.getElementById(campo).value : '';
         });
     });
+    
+    document.getElementById('clienteForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
+
+  const cliente = {
+    cpf: document.getElementById('cpf').value,
+    nome: document.getElementById('nome').value,
+    nascimento: document.getElementById('data_nascimento').value,
+    endereco: {
+      cep: document.getElementById('cep').value,
+      logradouro: document.getElementById('logradouro').value,
+      numero: document.getElementById('numero').value,
+      bairro: document.getElementById('bairro').value,
+      estado: document.getElementById('estado').value,
+      cidade: document.getElementById('cidade').value,
+    },
+    enderecoCobranca: {
+      cep: document.getElementById('cep_cobranca').value,
+      logradouro: document.getElementById('logradouro_cobranca').value,
+      numero: document.getElementById('numero_cobranca').value,
+      bairro: document.getElementById('bairro_cobranca').value,
+      estado: document.getElementById('estado_cobranca').value,
+      cidade: document.getElementById('cidade_cobranca').value,
+    },
+    telefone: document.getElementById('telefone').value,
+    whatsapp: document.getElementById('whatsapp').value,
+    email: document.getElementById('email').value,
+  };
+
+  try {
+    const response = await fetch('/api/editarCliente', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cliente),
+    });
+
+    if (!response.ok) {
+      throw new Error('Erro ao editar cliente');
+    }
+
+    alert('Cliente cadastrado com sucesso!');
+    window.location.href = '/gestaoClientes';
+  } catch (error) {
+    console.error('Erro ao cadastrar cliente', error);
+    alert('Erro ao cadastrar cliente');
+  }
+});
 </script>
 </body>
 </html>
