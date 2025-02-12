@@ -50,4 +50,36 @@ public class ClienteRestController {
         return (List<Cliente>) clienteRepository.findAll();
     }
 
+    //editar cliente
+    @PostMapping("/api/editarCliente/{email}")
+    public String editarCliente(@PathVariable String email, @Valid Cliente clienteAtualizado, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            for (ObjectError error : result.getAllErrors()) {
+                System.out.println(error.getDefaultMessage());
+            }
+            model.addAttribute("errors", result.getAllErrors());
+            return "redirect:/editarCliente";
+        }
+
+        Cliente cliente = clienteRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+
+        cliente.setNome(clienteAtualizado.getNome());
+        cliente.setCpf(clienteAtualizado.getCpf());
+        cliente.setTelefone(clienteAtualizado.getTelefone());
+        cliente.setEmail(clienteAtualizado.getEmail());
+        cliente.setEndereco(clienteAtualizado.getEndereco());
+
+        clienteRepository.save(cliente);
+
+        return "gestaoClientes";
+    }
+
+    //carregar informação do cliente
+    @GetMapping("/api/getCliente/{email}")
+    public Cliente getCliente(@PathVariable String email) {
+        return clienteRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+    }
+
 }

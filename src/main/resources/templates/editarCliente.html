@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Cliente</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+<div class="bg-white p-6 rounded-2xl shadow-lg w-full max-w-3xl">
+  <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Editar Cliente</h2>
+  <form method="post">
+    <!-- Dados Pessoais -->
+    <div class="mb-4">
+      <label for="nome" class="block text-gray-700 font-medium">Nome e Sobrenome</label>
+      <input name="nome" type="text" id="nome" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Digite o nome completo" required>
+    </div>
+    <div class="mb-4">
+      <label for="data_nascimento" class="block text-gray-700 font-medium">Data de Nascimento</label>
+      <input name="nascimento" type="date" id="data_nascimento" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
+
+    <!-- Endereço -->
+    <h3 class="text-lg font-semibold mt-6 mb-2">Endereço</h3>
+    <div class="mb-4">
+      <label for="cep" class="block text-gray-700 font-medium">CEP</label>
+      <input name="endereco.cep" type="text" id="cep" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
+    <div class="mb-4 flex gap-4">
+      <div class="flex-1">
+        <label for="logradouro" class="block text-gray-700 font-medium">Logradouro</label>
+        <input name="endereco.logradouro" type="text" id="logradouro" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      </div>
+      <div>
+        <label for="numero" class="block text-gray-700 font-medium">Número</label>
+        <input name="endereco.numero" type="text" id="numero" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      </div>
+    </div>
+    <div class="mb-4 flex gap-4">
+      <div class="flex-1">
+        <label for="bairro" class="block text-gray-700 font-medium">Bairro</label>
+        <input name="endereco.bairro" type="text" id="bairro" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      </div>
+      <div>
+        <label for="estado" class="block text-gray-700 font-medium">Estado</label>
+        <input name="endereco.estado" type="text" id="estado" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      </div>
+      <div>
+        <label for="cidade" class="block text-gray-700 font-medium">Cidade</label>
+        <input name="endereco.cidade" type="text" id="cidade" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      </div>
+    </div>
+
+    <!-- Endereço de Cobrança -->
+    <h3 class="text-lg font-semibold mt-6 mb-2">Endereço de Cobrança</h3>
+    <div class="mb-4">
+      <input type="checkbox" id="copiar_endereco" class="mr-2">
+      <label for="copiar_endereco" class="text-gray-700 font-medium">Usar o mesmo endereço</label>
+    </div>
+
+    <div class="mb-4">
+      <label for="cep" class="block text-gray-700 font-medium">CEP</label>
+      <input name="enderecoCobranca.cep" type="text" id="cep_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
+
+    <div class="mb-4 flex gap-4">
+      <div class="flex-1">
+        <label for="logradouro_cobranca" class="block text-gray-700 font-medium">Logradouro</label>
+        <input name="enderecoCobranca.logradouro" type="text" id="logradouro_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg">
+      </div>
+      <div>
+        <label for="numero_cobranca" class="block text-gray-700 font-medium">Número</label>
+        <input name="enderecoCobranca.numero" type="text" id="numero_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg">
+      </div>
+    </div>
+    <div class="mb-4 flex gap-4">
+      <div class="flex-1">
+        <label for="bairro_cobranca" class="block text-gray-700 font-medium">Bairro</label>
+        <input name="enderecoCobranca.bairro" type="text" id="bairro_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg">
+      </div>
+      <div>
+        <label for="estado_cobranca" class="block text-gray-700 font-medium">Estado</label>
+        <input name="enderecoCobranca.estado" type="text" id="estado_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg">
+      </div>
+      <div>
+        <label for="cidade_cobranca" class="block text-gray-700 font-medium">Cidade</label>
+        <input name="enderecoCobranca.cidade" type="text" id="cidade_cobranca" class="w-full px-4 py-2 mt-1 border rounded-lg">
+      </div>
+    </div>
+
+    <!-- Contato -->
+    <h3 class="text-lg font-semibold mt-6 mb-2">Contato</h3>
+    <div class="mb-4">
+      <label for="telefone" class="block text-gray-700 font-medium">Telefone</label>
+      <input name="telefone" type="text" id="telefone" class="w-full px-4 py-2 mt-1 border rounded-lg" placeholder="(XX) XXXXX-XXXX" required>
+    </div>
+    <div class="mb-4">
+      <label for="whatsapp" class="block text-gray-700 font-medium">WhatsApp</label>
+      <input name="whatsapp" type="text" id="whatsapp" class="w-full px-4 py-2 mt-1 border rounded-lg" placeholder="(XX) XXXXX-XXXX" required>
+    </div>
+    <div class="mb-4">
+      <label for="email" class="block text-gray-700 font-medium">Email</label>
+      <input name="email" type="email" id="email" class="w-full px-4 py-2 mt-1 border rounded-lg" placeholder="Digite um email válido" required>
+    </div>
+
+    <!-- Botão de Salvar -->
+    <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">Salvar</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('copiar_endereco').addEventListener('change', function() {
+      const campos = ["cep", "logradouro", "numero", "bairro", "estado", "cidade"];
+      campos.forEach(campo => {
+          document.getElementById(`${campo}_cobranca`).value = this.checked ? document.getElementById(campo).value : '';
+      });
+  });
+
+  document.addEventListener("DOMContentLoaded", async function loadClientData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+
+    if (!email) {
+      alert('Email do cliente não informado');
+      window.location.href = '/gestaoClientes';
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/getCliente/${email}`);
+      if (!response.ok) {
+        throw new Error('Erro ao buscar cliente');
+      }
+      const cliente = await response.json();
+
+      document.getElementById('nome').value = cliente.nome;
+      document.getElementById('data_nascimento').value = cliente.nascimento;
+      document.getElementById('cep').value = cliente.endereco.cep;
+      document.getElementById('logradouro').value = cliente.endereco.logradouro;
+      document.getElementById('numero').value = cliente.endereco.numero;
+      document.getElementById('bairro').value = cliente.endereco.bairro;
+      document.getElementById('estado').value = cliente.endereco.estado;
+      document.getElementById('cidade').value = cliente.endereco.cidade;
+      document.getElementById('telefone').value = cliente.telefone;
+      document.getElementById('whatsapp').value = cliente.whatsapp;
+      document.getElementById('email').value = cliente.email;
+      document.getElementById('cep_cobranca').value = cliente.enderecoCobranca.cep;
+      document.getElementById('logradouro_cobranca').value = cliente.enderecoCobranca.logradouro;
+      document.getElementById('numero_cobranca').value = cliente.enderecoCobranca.numero;
+      document.getElementById('bairro_cobranca').value = cliente.enderecoCobranca.bairro;
+      document.getElementById('estado_cobranca').value = cliente.enderecoCobranca.estado;
+      document.getElementById('cidade_cobranca').value = cliente.enderecoCobranca.cidade;
+    } catch (error) {
+      console.error('Erro ao buscar cliente', error);
+      alert('Erro ao buscar cliente');
+    }
+  })
+</script>
+</body>
+</html>

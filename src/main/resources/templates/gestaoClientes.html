@@ -14,7 +14,7 @@
     <table class="mt-4 w-full border-collapse border border-gray-300">
         <thead>
         <tr class="bg-gray-200">
-            <th class="border p-2">ID</th>
+            <th class="border p-2">#</th>
             <th class="border p-2">Nome</th>
             <th class="border p-2">Telefone</th>
             <th class="border p-2">WhatsApp</th>
@@ -29,7 +29,7 @@
 </div>
 <script>
 
-    async function confirmarExclusao(email) {
+async function confirmarExclusao(email) {
   if (confirm("Tem certeza que deseja excluir este cliente?")) {
     try {
         const response = await fetch(`/api/deleteCliente/${email}`, {
@@ -46,6 +46,11 @@
         
     }
   }
+}
+
+//redirecionamento para edição
+function redirecionamentoEdicaoCliente(email) {
+    window.location.href = `/editarCliente?email=${email}`;
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -68,8 +73,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         <td class="border p-2 text-center">${cliente.email}</td>
         <td class="border p-2 text-center">${new Date(cliente.nascimento).toLocaleDateString('pt-BR')}</td>
         <td class="border p-2 text-center">
-          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
-          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="confirmarExclusao('${cliente.email}')">Excluir</button>
+          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600" onclick="editarCliente('${cliente.email}')">Editar</button>
+          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="redirecionamentoEdicaoCliente('${cliente.email}')">Excluir</button>
           <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Agendar</button>
         </td>
       `;

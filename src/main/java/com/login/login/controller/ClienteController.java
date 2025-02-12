@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ClienteController {
 
+    //auto instanciamento do repository
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     //servir pagina gestão de clientes
     @GetMapping("/gestaoClientes")
     public String gestaoClientes() {
@@ -26,5 +30,13 @@ public class ClienteController {
         return "inserirCliente";
     }
 
+    //servir pagina edição de cliente
+    @GetMapping("/editarCliente")
+    public String editarCliente(@RequestParam("email") String email, Model model) {
+        Cliente cliente = clienteRepository.findFirstByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+        model.addAttribute("cliente", cliente);
+        return "editarCliente";
+    }
 }
 
