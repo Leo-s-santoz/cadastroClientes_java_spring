@@ -12,6 +12,10 @@
   <form method="post">
     <!-- Dados Pessoais -->
     <div class="mb-4">
+      <label for="cpf" class="block text-gray-700 font-medium">CPF</label>
+      <input name="cpf" type="text" disabled="true" id="cpf" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Digite o CPF" required>
+    </div>
+    <div class="mb-4">
       <label for="nome" class="block text-gray-700 font-medium">Nome e Sobrenome</label>
       <input name="nome" type="text" id="nome" class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="Digite o nome completo" required>
     </div>
@@ -133,6 +137,7 @@
       }
       const cliente = await response.json();
 
+      document.getElementById('cpf').value = cliente.cpf;
       document.getElementById('nome').value = cliente.nome;
       document.getElementById('data_nascimento').value = cliente.nascimento;
       document.getElementById('cep').value = cliente.endereco.cep;

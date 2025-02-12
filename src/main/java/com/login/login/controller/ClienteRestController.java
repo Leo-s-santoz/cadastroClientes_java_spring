@@ -1,7 +1,7 @@
 package com.login.login.controller;
 
 import com.login.login.model.Cliente;
-import com.login.login.repository.ClienteRepository;
+import com.login.login.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ public class ClienteRestController {
 
     //auto instanciamento do repository
     @Autowired
-    private ClienteRepository clienteRepository;
+    private ClienteService clienteService;
 
     //metodo de cadastro de cliente
     @PostMapping("/inserirCliente")
@@ -30,7 +30,7 @@ public class ClienteRestController {
             return "redirect:/inserirCliente";
         }
 
-        clienteRepository.save(novoCliente);
+        clienteService.saveOrUpdateCliente(novoCliente);
 
         return "gestaoClientes";
     }
@@ -38,48 +38,23 @@ public class ClienteRestController {
     //metodo de exclusao de cliente
     @DeleteMapping("/api/deleteCliente/{email}")
     public String deletarCliente(@PathVariable String email) {
-        Cliente cliente = clienteRepository.findFirstByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
-        clienteRepository.delete(cliente);
+        Cliente cliente = clienteService.findClienteByEmail(email);
+        clienteService.deleteCliente(cliente);
         return "gestaoClientes";
     }
 
     //metodo de listagem de clientes
     @GetMapping("/api/listarClientes")
     public List<Cliente> listarClientes() {
-        return (List<Cliente>) clienteRepository.findAll();
+        return (List<Cliente>) clienteService.listarClientes();
     }
 
     //editar cliente
-    @PostMapping("/api/editarCliente/{email}")
-    public String editarCliente(@PathVariable String email, @Valid Cliente clienteAtualizado, BindingResult result, Model model) {
-        if(result.hasErrors()){
-            for (ObjectError error : result.getAllErrors()) {
-                System.out.println(error.getDefaultMessage());
-            }
-            model.addAttribute("errors", result.getAllErrors());
-            return "redirect:/editarCliente";
-        }
-
-        Cliente cliente = clienteRepository.findFirstByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
-
-        cliente.setNome(clienteAtualizado.getNome());
-        cliente.setCpf(clienteAtualizado.getCpf());
-        cliente.setTelefone(clienteAtualizado.getTelefone());
-        cliente.setEmail(clienteAtualizado.getEmail());
-        cliente.setEndereco(clienteAtualizado.getEndereco());
-
-        clienteRepository.save(cliente);
-
-        return "gestaoClientes";
-    }
 
     //carregar informação do cliente
     @GetMapping("/api/getCliente/{email}")
     public Cliente getCliente(@PathVariable String email) {
-        return clienteRepository.findFirstByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+        return clienteService.findClienteByEmail(email);
     }
 
 }
