@@ -31,9 +31,11 @@ public class ClienteController {
 
     //servir pagina edição de cliente
     @GetMapping("/editarCliente")
-    public String editarCliente(@RequestParam("email") String email, Model model) {
-        Cliente cliente = clienteRepository.findFirstByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + email));
+    public String editarCliente(@RequestParam("cpf") String cpf, Model model) {
+        Cliente cliente = clienteRepository.findFirstByCpf(cpf);
+        if (cliente == null) {
+            throw new IllegalArgumentException("Cliente não encontrado: " + cpf);
+        }
         model.addAttribute("cliente", cliente);
         return "editarCliente";
     }

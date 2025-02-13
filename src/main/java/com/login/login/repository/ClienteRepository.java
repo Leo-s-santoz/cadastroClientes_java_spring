@@ -11,5 +11,5 @@ public interface ClienteRepository extends CrudRepository<Cliente, String> {
 
     Optional<Cliente> findFirstByEmail(String email);
 
-    Optional<Cliente> findFirstByCpf(String cpf);
+    Cliente findFirstByCpf(String cpf);
 }

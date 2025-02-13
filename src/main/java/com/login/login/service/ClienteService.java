@@ -24,7 +24,7 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Optional<Cliente> findFirstByCpf(String cpf) {
+    public Cliente findFirstByCpf(String cpf) {
         return clienteRepository.findFirstByCpf(cpf);
     }
 

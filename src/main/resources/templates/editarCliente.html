@@ -113,6 +113,8 @@
 </div>
 
 <script>
+
+//enviar informações do formulário
 document.getElementById('clienteForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -162,7 +164,7 @@ document.getElementById('clienteForm').addEventListener('submit', async function
   }
 });
 
-
+//copiar endereço para endereço de cobrança
 document.getElementById('copiar_endereco').addEventListener('change', function() {
     const campos = ["cep", "logradouro", "numero", "bairro", "estado", "cidade"];
     campos.forEach(campo => {
@@ -170,19 +172,20 @@ document.getElementById('copiar_endereco').addEventListener('change', function()
     });
 });
 
+//buscar informações do cliente e preencher campos
 document.addEventListener("DOMContentLoaded", async function loadClientData() {
 
   const urlParams = new URLSearchParams(window.location.search);
-  const email = urlParams.get('email');
+  const cpf = urlParams.get('cpf');
 
-  if (!email) {
-    alert('Email do cliente não informado');
+  if (!cpf) {
+    alert('CPF do cliente não informado');
     window.location.href = '/gestaoClientes';
     return;
   }
 
   try {
-    const response = await fetch(`/api/getCliente/${email}`);
+    const response = await fetch(`/api/getCliente/${cpf}`);
     if (!response.ok) {
       throw new Error('Erro ao buscar cliente');
     }

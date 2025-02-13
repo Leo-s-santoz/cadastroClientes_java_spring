@@ -32,7 +32,7 @@ public class ClienteRestController {
             throw new IllegalArgumentException("CPF não pode ser nulo");
         }
         // Verifica se o cliente existe pelo CPF
-        Optional<Cliente> clienteExistente = clienteService.findFirstByCpf(cliente.getCpf());
+        Cliente clienteExistente = clienteService.findFirstByCpf(cliente.getCpf());
 
         if (clienteExistente != null) {
 
@@ -46,9 +46,9 @@ public class ClienteRestController {
     }
 
     //metodo de exclusao de cliente
-    @DeleteMapping("/api/deleteCliente/{email}")
-    public String deletarCliente(@PathVariable String email) {
-        Cliente cliente = clienteService.findClienteByEmail(email);
+    @DeleteMapping("/api/deleteCliente/{cpf}")
+    public String deletarCliente(@PathVariable String cpf) {
+        Cliente cliente = clienteService.findFirstByCpf(cpf);
         clienteService.deleteCliente(cliente);
         return "gestaoClientes";
     }
@@ -60,8 +60,8 @@ public class ClienteRestController {
     }
 
     //carregar informação do cliente
-    @GetMapping("/api/getCliente/{email}")
-    public Cliente getCliente(@PathVariable String email) {
-        return clienteService.findClienteByEmail(email);
+    @GetMapping("/api/getCliente/{cpf}")
+    public Cliente getCliente(@PathVariable String cpf) {
+        return clienteService.findFirstByCpf(cpf);
     }
 }

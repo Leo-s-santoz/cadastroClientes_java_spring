@@ -27,12 +27,15 @@
         </tbody>
     </table>
 </div>
+
+
 <script>
 
-async function confirmarExclusao(email) {
+//confirma exclusão
+async function confirmarExclusao(cpf) {
   if (confirm("Tem certeza que deseja excluir este cliente?")) {
     try {
-        const response = await fetch(`/api/deleteCliente/${email}`, {
+        const response = await fetch(`/api/deleteCliente/${cpf}`, {
             method: "DELETE",
         });
         if (!response.ok) {
@@ -48,9 +51,14 @@ async function confirmarExclusao(email) {
   }
 }
 
-//redirecionamento para edição
-function redirecionamentoEdicaoCliente(email) {
-    window.location.href = `/editarCliente?email=${email}`;
+//redireciona para agendamento
+function redirecionarAgendamento(cpf) {
+    window.location.href = `/inserirAgendamento?cpf=${cpf}`;
+}
+
+//redireciona para edição
+function redirecionarEdicaoCliente(cpf) {
+    window.location.href = `/editarCliente?cpf=${cpf}`;
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -73,9 +81,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         <td class="border p-2 text-center">${cliente.email}</td>
         <td class="border p-2 text-center">${new Date(cliente.nascimento).toLocaleDateString('pt-BR')}</td>
         <td class="border p-2 text-center">
-          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600" onclick="redirecionamentoEdicaoCliente('${cliente.email}')">Editar</button>
-          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="confirmarExclusao('${cliente.email}')">Excluir</button>
-          <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Agendar</button>
+          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600" onclick="redirecionarEdicaoCliente('${cliente.cpf}')">Editar</button>
+          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" onclick="confirmarExclusao('${cliente.cpf}')">Excluir</button>
+          <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600" onclick="redirecionarAgendamento('${cliente.cpf}')">Agendar</button>
         </td>
       `;
 
