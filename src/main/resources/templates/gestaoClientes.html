@@ -61,6 +61,7 @@ function redirecionarEdicaoCliente(cpf) {
     window.location.href = `/editarCliente?cpf=${cpf}`;
 }
 
+//preencher tabela com clientes
 document.addEventListener("DOMContentLoaded", async function () {
   try {
     const response = await fetch("/api/listarClientes");

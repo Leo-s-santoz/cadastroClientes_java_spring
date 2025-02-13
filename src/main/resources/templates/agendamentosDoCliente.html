@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamentos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex flex-col items-center bg-gray-100 p-6">
+  <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4" id="tituloAgendamentos">Agendamentos - Nome do Cliente</h1>
+
+  <a href="/inserirAgendamento" class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+    Inserir Agendamento
+  </a>
+
+
+  <table class="mt-4 w-full border-collapse border border-gray-300">
+    <thead>
+    <tr class="bg-gray-200">
+      <th class="border p-2 w-10">#</th>
+      <th class="border p-2">Data</th>
+      <th class="border p-2">WhatsApp</th>
+      <th class="border p-2 w-80">Ações</th>
+    </tr>
+    </thead>
+    <tbody id="agendamentos">
+    
+    </tbody>
+  </table>
+</div>
+
+<script>
+  // recuperar agendamentos do cliente
+  
+
+  // Exibir o nome do cliente no título
+  document.getElementById('tituloAgendamentos').innerText = `Agendamentos - ${clienteNome}`;
+
+  // Preencher a tabela com os agendamentos
+  const tabela = document.getElementById('agendamentos');
+  agendamentos.forEach((item, index) => {
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+          <td class="border p-2">${index + 1}</td>
+          <td class="border p-2">${item.data}</td>
+          <td class="border p-2">${item.whatsapp}</td>
+      <td class="border p-2 text-center">
+          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
+          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Excluir</button>
+          <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Agendar</button>
+        </td>
+      `;
+      tabela.appendChild(row);
+  });
+</script>
+</body>
+</html>
