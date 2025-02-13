@@ -10,10 +10,10 @@ public class Cliente {
     private String cpf;
 
     @NotEmpty
-    public String nome;
+    private String nome;
 
     @NotEmpty
-    public String nascimento;
+    private String nascimento;
 
     @Embedded
     @AttributeOverrides({
@@ -24,7 +24,7 @@ public class Cliente {
             @AttributeOverride(name = "estado", column = @Column(name = "endereco_estado")),
             @AttributeOverride(name = "cidade", column = @Column(name = "endereco_cidade"))
     })
-    public Endereco endereco;
+    private Endereco endereco;
 
     @Embedded
     @AttributeOverrides({
@@ -35,17 +35,17 @@ public class Cliente {
             @AttributeOverride(name = "estado", column = @Column(name = "cobranca_estado")),
             @AttributeOverride(name = "cidade", column = @Column(name = "cobranca_cidade"))
     })
-    public Endereco enderecoCobranca;
+    private Endereco enderecoCobranca;
 
     @NotEmpty
-    public String telefone;
+    private String telefone;
 
     @NotEmpty
-    public String whatsapp;
+    private String whatsapp;
 
     @NotEmpty
     @Column(unique = true)
-    public String email;
+    private String email;
 
     //getters and setters
 
