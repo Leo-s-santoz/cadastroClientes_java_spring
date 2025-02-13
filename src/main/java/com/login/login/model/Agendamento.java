@@ -1,10 +1,8 @@
+// Agendamento.java
 package com.login.login.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.util.Date;
 
 @Entity
@@ -35,20 +33,25 @@ public class Agendamento {
     @NotEmpty
     private String whatsapp;
 
+    @NotEmpty
+    private String email;
+
+    private String observacao;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
 
     @NotEmpty
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataAdendada;
+    private String data_agendada;
+
+    @NotEmpty
+    private String hora_agendada;
 
     @PrePersist
     protected void onCreate() {
         dataCriacao = new Date();
     }
 
-
-    //getters and setters
     public Long getId() {
         return id;
     }
@@ -63,9 +66,6 @@ public class Agendamento {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-        this.endereco = cliente.getEndereco();
-        this.telefone = cliente.getTelefone();
-        this.whatsapp = cliente.getWhatsapp();
     }
 
     public Endereco getEndereco() {
@@ -92,6 +92,22 @@ public class Agendamento {
         this.whatsapp = whatsapp;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     public Date getDataCriacao() {
         return dataCriacao;
     }
@@ -100,11 +116,19 @@ public class Agendamento {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataAdendada() {
-        return dataAdendada;
+    public String getData_agendada() {
+        return data_agendada;
     }
 
-    public void setDataAdendada(Date dataAdendada) {
-        this.dataAdendada = dataAdendada;
+    public void setData_agendada(String data_agendada) {
+        this.data_agendada = data_agendada;
+    }
+
+    public String getHora_agendada() {
+        return hora_agendada;
+    }
+
+    public void setHora_agendada(String hora_agendada) {
+        this.hora_agendada = hora_agendada;
     }
 }
