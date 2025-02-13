@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class ClienteController {
 
-    //auto instanciamento do repository
     @Autowired
     private ClienteRepository clienteRepository;
 
