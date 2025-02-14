@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agendamentos</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="flex flex-col items-center bg-gray-100 p-6">
   <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md">
@@ -20,6 +21,7 @@
     <tr class="bg-gray-200">
       <th class="border p-2 w-10">#</th>
       <th class="border p-2">Data</th>
+      <th class="border p-2">Hora</th>
       <th class="border p-2">WhatsApp</th>
       <th class="border p-2 w-80">Ações</th>
     </tr>
@@ -31,29 +33,73 @@
 </div>
 
 <script>
-  // recuperar agendamentos do cliente
-  
+  // Recuperar o nome do cliente
+  const urlParams = new URLSearchParams(window.location.search);
+  const clienteNome = urlParams.get('nome');
+  if (!clienteNome) {
+      alert('Nome do cliente não informado');
+      window.location.href = '/gestaoClientes';
+}
 
   // Exibir o nome do cliente no título
   document.getElementById('tituloAgendamentos').innerText = `Agendamentos - ${clienteNome}`;
 
-  // Preencher a tabela com os agendamentos
-  const tabela = document.getElementById('agendamentos');
-  agendamentos.forEach((item, index) => {
-      const row = document.createElement('tr');
 
-      row.innerHTML = `
-          <td class="border p-2">${index + 1}</td>
-          <td class="border p-2">${item.data}</td>
-          <td class="border p-2">${item.whatsapp}</td>
-      <td class="border p-2 text-center">
-          <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
-          <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Excluir</button>
-          <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Agendar</button>
-        </td>
-      `;
-      tabela.appendChild(row);
-  });
+
+// recuperar agendamentos do cliente
+  document.addEventListener("DOMContentLoaded", async function  recuperarAgendamentos() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const cpf = urlParams.get('cpf');
+
+    try {
+      const response = await fetch(`/api/agendamentos/${cpf}`);
+      if (!response.ok) {
+        throw new Error('Erro ao recuperar agendamentos');
+      }
+      const agendamentosList = await response.json();
+
+      // Preencher a tabela com os agendamentos
+    const tabela = document.getElementById('agendamentos');
+      agendamentosList.forEach((agendamento, index) => {
+        const row = document.createElement('tr');
+
+        let statusIcon;
+          switch (agendamento.status) {
+            case 'AGENDADO':
+              statusIcon = '<i class="fas fa-clock text-yellow-500 text-xl ml-2"></i>';
+              break;
+            case 'REALIZADO':
+              statusIcon = '<i class="fas fa-check text-green-500 text-xl ml-2"></i>';
+              break;
+            case 'CANCELADO':
+              statusIcon = '<i class="fas fa-ban text-red-500 text-xl ml-2"></i>';
+              break;
+            default:
+              statusIcon = '';
+          }
+
+        row.innerHTML = `
+          <td class="border p-2 text-center">${index + 1}</td>
+          <td class="border p-2 text-center">${new Date(agendamento.data_agendada).toLocaleDateString('pt-BR')}</td>
+          <td class="border p-2 text-center">${agendamento.hora_agendada}</td>
+          <td class="border p-2 text-center">${agendamento.whatsapp}</td>
+          <td class="border p-2 text-center">
+            <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
+            <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Cancelar</button>
+            ${statusIcon}
+          </td>
+        `;
+
+        tabela.appendChild(row);
+      });
+    } catch (error) {
+      console.error('Erro ao recuperar agendamentos', error);
+      alert('Erro ao recuperar agendamentos');
+    }
+});
+
+
 </script>
 </body>
 </html>

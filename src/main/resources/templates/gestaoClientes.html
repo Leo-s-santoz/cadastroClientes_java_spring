@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       row.innerHTML = `
         <td class="border p-2 text-center">${index + 1}</td>
-        <td class="border p-2 text-blue-500 underline cursor-pointer">${cliente.nome}</td>
+        <td class="border p-2 text-blue-500 underline cursor-pointer"><a href="/agendamentosDoCliente?cpf=${cliente.cpf}&nome=${cliente.nome}">${cliente.nome}<a></td>
         <td class="border p-2 text-center">${cliente.telefone}</td>
         <td class="border p-2 text-center">${cliente.whatsapp}</td>
         <td class="border p-2 text-center">${cliente.email}</td>

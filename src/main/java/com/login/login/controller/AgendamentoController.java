@@ -15,4 +15,9 @@ public class AgendamentoController {
     public String inserirAgendamento() {
         return "inserirAgendamento";
     }
+
+    @GetMapping("/agendamentosDoCliente")
+    public String agendamentosDoCliente() {
+        return "agendamentosDoCliente";
+    }
 }

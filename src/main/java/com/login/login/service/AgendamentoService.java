@@ -5,11 +5,17 @@ import com.login.login.repository.AgendamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AgendamentoService {
 
     @Autowired
     private AgendamentoRepository agendamentoRepository;
+
+    public List<Agendamento> listarAgendamentos(String cpf) {
+        return agendamentoRepository.findByClienteCpf(cpf);
+    }
 
     public Agendamento salvarAgendamento(Agendamento agendamento) {
         return agendamentoRepository.save(agendamento);

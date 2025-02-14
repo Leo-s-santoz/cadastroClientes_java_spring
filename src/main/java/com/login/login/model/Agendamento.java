@@ -3,6 +3,8 @@ package com.login.login.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Date;
 
 @Entity
@@ -47,11 +49,18 @@ public class Agendamento {
     @NotEmpty
     private String hora_agendada;
 
+    @Enumerated(EnumType.STRING)
+    private StatusAgendamento status;
+
     @PrePersist
     protected void onCreate() {
         dataCriacao = new Date();
+        if (status == null) {
+            status = StatusAgendamento.AGENDADO;
+        }
     }
 
+    //getters and setters
     public Long getId() {
         return id;
     }
@@ -130,5 +139,13 @@ public class Agendamento {
 
     public void setHora_agendada(String hora_agendada) {
         this.hora_agendada = hora_agendada;
+    }
+
+    public StatusAgendamento getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAgendamento status) {
+        this.status = status;
     }
 }

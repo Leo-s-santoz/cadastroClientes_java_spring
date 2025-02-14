@@ -61,7 +61,7 @@ public class ClienteRestController {
 
     //carregar informação do cliente
     @GetMapping("/api/getCliente/{cpf}")
-    public Cliente getCliente(@PathVariable String cpf) {
+    public Cliente getClientes(@PathVariable String cpf) {
         return clienteService.findFirstByCpf(cpf);
     }
 }
