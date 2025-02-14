@@ -44,6 +44,27 @@
   // Exibir o nome do cliente no título
   document.getElementById('tituloAgendamentos').innerText = `Agendamentos - ${clienteNome}`;
 
+  // Confirmar cancelamento
+  async function confirmarCancelamento(id) {
+    try {
+        const response = await fetch(`/api/cancelarAgendamento/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Server Error');
+        }
+
+        console.log('Agendamento cancelado com sucesso');
+        alert('Agendamento cancelado com sucesso');
+        location.reload();
+    } catch (error) {
+        console.error('Erro ao cancelar agendamento:', error);
+    }
+}
 
 
 // recuperar agendamentos do cliente
@@ -65,32 +86,34 @@
         const row = document.createElement('tr');
 
         let statusIcon;
+          let disabled = '';
           switch (agendamento.status) {
             case 'AGENDADO':
               statusIcon = '<i class="fas fa-clock text-yellow-500 text-xl ml-2"></i>';
               break;
             case 'REALIZADO':
               statusIcon = '<i class="fas fa-check text-green-500 text-xl ml-2"></i>';
+              disabled = 'disabled';
               break;
             case 'CANCELADO':
               statusIcon = '<i class="fas fa-ban text-red-500 text-xl ml-2"></i>';
+              disabled = 'disabled';
               break;
             default:
               statusIcon = '';
           }
 
-        row.innerHTML = `
-          <td class="border p-2 text-center">${index + 1}</td>
-          <td class="border p-2 text-center">${new Date(agendamento.data_agendada).toLocaleDateString('pt-BR')}</td>
-          <td class="border p-2 text-center">${agendamento.hora_agendada}</td>
-          <td class="border p-2 text-center">${agendamento.whatsapp}</td>
-          <td class="border p-2 text-center">
-            <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Editar</button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Cancelar</button>
-            ${statusIcon}
-          </td>
-        `;
-
+          row.innerHTML = `
+            <td class="border p-2 text-center">${index + 1}</td>
+            <td class="border p-2 text-center">${new Date(agendamento.data_agendada).toLocaleDateString('pt-BR')}</td>
+            <td class="border p-2 text-center">${agendamento.hora_agendada}</td>
+            <td class="border p-2 text-center">${agendamento.whatsapp}</td>
+            <td class="border p-2 text-center">
+              <button class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600" ${disabled}>Editar</button>
+              <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600" ${disabled} onclick="confirmarCancelamento(${agendamento.id})">Cancelar</button>
+              ${statusIcon}
+            </td>
+          `;
         tabela.appendChild(row);
       });
     } catch (error) {

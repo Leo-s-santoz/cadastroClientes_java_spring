@@ -13,6 +13,10 @@ public class AgendamentoService {
     @Autowired
     private AgendamentoRepository agendamentoRepository;
 
+    public void cancelarAgendamento(Long agendamentoId) {
+        agendamentoRepository.cancelarAgendamento(agendamentoId);
+    }
+
     public List<Agendamento> listarAgendamentos(String cpf) {
         return agendamentoRepository.findByClienteCpf(cpf);
     }
